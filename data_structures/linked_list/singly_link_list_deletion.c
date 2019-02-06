@@ -4,6 +4,7 @@
   deleteNode deletes a node when passed with a key of the node.
 */
 #include<stdio.h>
+#include<assert.h>
 struct node
 {int info;
  struct node *link;
@@ -56,7 +57,7 @@ void viewlist()//function to display values
     struct node *p;
     if(start==NULL)
     {
-        printf("\nlist is empty");
+        printf("list is empty\n");
     }
     else
     {   p=start;
@@ -69,7 +70,7 @@ void viewlist()//function to display values
 }
 //////////////////////////////////////////////////////////////////////
 
-int main()
+/*int main()
 {
     int n;
     while(1)
@@ -95,4 +96,22 @@ int main()
         }
     }
   return(0);
+}
+*/
+
+int main(){
+  start = createnode();
+  struct node* og = start;
+  insert();
+  assert(og != start);
+  insert();
+  printf("List:\n");
+  viewlist();
+  printf("\n");
+  deleteion();
+  deleteion();
+  assert(og == start);
+  deleteion();
+  printf("List:\n");
+  viewlist();
 }
