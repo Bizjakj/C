@@ -125,7 +125,7 @@ int main(int argc, char **argv){
 					assert(g.edges[num].weight == r);
 					assert(g.edges[num].src == i);
 					assert(g.edges[num].dst == j);
-					num++;
+					num+=2;
 				}
 			}
 		}
