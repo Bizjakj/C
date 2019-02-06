@@ -52,9 +52,9 @@ int insertValueCArray(CArray *array, int position, int value)
 			array->array[position] = value;
 			return SUCCESS;
 		}
-		else return POSITION_INIT; 
+		else return POSITION_INIT;
 	}
-	return INVALID_POSITION; 
+	return INVALID_POSITION;
 }
 
 int removeValueCArray(CArray *array, int position)
@@ -63,7 +63,7 @@ int removeValueCArray(CArray *array, int position)
 		if (array->array[position] != 0) {
 			array->array[position] = 0;
 		}
-		else return POSITION_EMPTY; 
+		else return POSITION_EMPTY;
 	}
 	return INVALID_POSITION;
 }
@@ -106,7 +106,7 @@ int eraseCArray(CArray *array)
 
 int switchValuesCArray(CArray *array, int position1, int position2)
 {
-	if (position1 >= 0 && position1 < array->size 
+	if (position1 >= 0 && position1 < array->size
 		&& position2 >= 0 && position2 < array->size) {
 		int temp = array->array[position1];
 		array->array[position1] = array->array[position2];
