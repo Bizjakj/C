@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 /* A basic unbalanced binary search tree implementation in C, with the following functionalities implemented:
  - Insertion
@@ -20,6 +21,36 @@ typedef struct node{
 	// data of the node
 	int data;
 } node;
+
+void inOrderTraversal(struct node *node)
+{
+    if(node == NULL) //if tree is empty
+        return;
+
+    inOrderTraversal(node->left);
+    printf("\t%d\t", node->data);
+    inOrderTraversal(node->right);
+}
+
+void preOrderTraversal(struct node *node)
+{
+    if(node == NULL) //if tree is empty
+        return;
+
+    printf("\t%d\t", node->data);
+    preOrderTraversal(node->left);
+    preOrderTraversal(node->right);
+}
+
+void postOrderTraversal(struct node *node)
+{
+    if(node == NULL) //if tree is empty
+        return;
+
+    postOrderTraversal(node->left);
+    postOrderTraversal(node->right);
+    printf("\t%d\t",node->data);
+}
 
 // The node constructor, which receives the key value input and returns a node pointer
 node* newNode(int data){
@@ -161,45 +192,53 @@ void inOrder(node* root){
 
 void main(){
 
-    // this reference don't change.
-    // only the tree changes.
+
 	node* root = NULL;
-	int opt = -1;
 	int data = 0;
+	printf("insert nodes 0, 5, 10, 4, 3, 5, 6, -1\n");
+	root = insert(root,data);
+	root = insert(root, 5);
+	root = insert(root, 10);
+	root = insert(root, 4);
+	root = insert(root, 3);
+	root = insert(root, 5);
+	root = insert(root, 6);
+	root = insert(root, -1);
+	printf("\nheight: %d\n", height(root));
+	assert(height(root) == 4);
 
-    // event-loop.
-	while (opt != 0){
-		printf("\n\n[1] Insert Node\n[2] Delete Node\n[3] Find a Node\n[4] Get current Height\n[5] Print Tree in Crescent Order\n[0] Quit\n");
-		scanf("%d",&opt); // reads the choice of the user
+	printf("in order traversal\n");
+	inOrderTraversal(root);
+	printf("\n");
+	printf("pre order traversal\n");
+	preOrderTraversal(root);
+	printf("\n");
+	printf("post order traversal\n");
+	postOrderTraversal(root);
+	printf("\n");
 
-        // processes the choice
-		switch(opt){
-			case 1:	printf("Enter the new node's value:\n");
-				scanf("%d",&data);
-				root = insert(root,data);
-				break;
+	printf("deleting 4, then 4, then 10\n");
+	root = delete(root, 3);
+	root = delete(root, 3);
+	root = delete(root, 10);
+	inOrder(root);
+	printf("\n");
+	printf("\nheight: %d\n", height(root));
+	assert(height(root) == 3);
 
-			case 2: printf("Enter the value to be removed:\n");
-				if (root != NULL){
-					scanf("%d",&data);
-					root = delete(root,data);
-				}
-				else
-					printf("Tree is already empty!\n");
-				break;
-
-			case 3: printf("Enter the searched value:\n");
-				scanf("%d",&data);
-				find(root,data) ? printf("The value is in the tree.\n") : printf("The value is not in the tree.\n");
-				break;
-
-			case 4: printf("Current height of the tree is: %d\n", height(root));
-				break;
-
-			case 5: inOrder(root);
-				break;
-		}
-	}
+	printf("in order traversal\n");
+	inOrderTraversal(root);
+	printf("\n");
+	printf("pre order traversal\n");
+	preOrderTraversal(root);
+	printf("\n");
+	printf("post order traversal\n");
+	postOrderTraversal(root);
+	printf("\n");
+	
+	printf("attempting to find 0, and -2\n");
+	assert(find(root,data));
+	assert(!find(root, -2));
 
     // deletes the tree from the heap.
 	purge(root);

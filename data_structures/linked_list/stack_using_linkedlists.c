@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<assert.h>
 struct node
 {
 	int info;
@@ -11,8 +12,8 @@ void pop(struct node*);
 void display(struct node*);
 
 int main()
-{ 
- int x=0,item;  
+{
+ /*int x=0,item;
  printf("\t****stack using linked list****\n");
 	while(x!=4)
 	{
@@ -29,10 +30,16 @@ int main()
 			case 3: display(top);
 			      break;
 			case 4: return 0;
-			      
+
 		}
-	}
-	
+	}*/
+
+	int i;
+	scanf("%d",&i);
+	struct node element;
+	element
+
+
 }
 
 void push(struct node *p)
@@ -43,13 +50,13 @@ void push(struct node *p)
 	printf("enter element to be inserted\n");
 			scanf("%d",&item);
 			temp->info=item;
-			
 
-    
+
+
 			temp->link=top;
 		top=temp;
-		
-	
+
+
 
 	printf("inserted succesfully\n");
 }
@@ -57,7 +64,7 @@ void pop(struct node *p)
 {
 	int item;
 	struct node *temp;
-	
+
 		if(top==NULL)
 	printf("stack is empty\n");
 	  else{
@@ -67,13 +74,13 @@ void pop(struct node *p)
 	  	free(temp);
 	  	printf("Element popped is%d\n",item);
 	  }
-	
+
 }
 
 
 void display(struct node *p)
 {
-	
+
 	if(top==NULL)
 	printf("stack is empty\n");
 	else
@@ -84,9 +91,7 @@ void display(struct node *p)
 		p=p->link;
          }
         // printf("%d\n",p->info);
-        
+
 	}
 
 }
-
-

@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<assert.h>
 struct node{
    	int data;
    	struct node *next;
@@ -7,6 +8,8 @@ struct node{
 
 struct node *head1 = NULL;
 struct node *head2 = NULL;
+struct node *head3 = NULL;
+
 
 ///// MAIN ALGORITHMIC FUNCTION to MERGE the two input linked lists ///////
 
@@ -19,7 +22,7 @@ void merge()
     	struct node *holder2 = NULL;
     	//Temporary pointer variables to store the address of next node of the two input linked list
 
-    	while(temp1!=NULL && temp2!=NULL)	
+    	while(temp1!=NULL && temp2!=NULL)
     	{
         		holder1 = temp1 -> next;
         		//Storing the address of next node of first linked list
@@ -30,26 +33,26 @@ void merge()
                     //Making the first node of second linked list point to second node of first linked list
                     holder2 = temp2 -> next;
                     temp2 -> next = holder1;
-		        }							
+		        }
         		temp1=holder1;
-        		temp2=holder2;	
+        		temp2=holder2;
         		//Updating the address location of two pointer variables temp1 and temp2
     	}
 }
 
 void printlist(struct node *temp){
     printf("%d",temp->data);
-    temp=temp->next;		
+    temp=temp->next;
     while(temp!=NULL){
             printf("->%d",temp->data);
-            temp=temp->next;		
+            temp=temp->next;
     }
     printf("\n");
 }
 
 int main()
 {
-    // Linked List 1: 1->3->5->7   :   Linked List 2: 2->4->6
+    // Linked List 1: 1->3->5->7   :   Linked List 2: 2->7->6
     //  making lists
     	struct node *one = (struct node*)malloc(sizeof(struct node));
     	struct node *two = (struct node*)malloc(sizeof(struct node));
@@ -58,23 +61,20 @@ int main()
     	struct node *five = (struct node*)malloc(sizeof(struct node));
     	struct node *six = (struct node*)malloc(sizeof(struct node));
     	struct node *seven = (struct node*)malloc(sizeof(struct node));
-    	//Seven nodes are created
+      struct node *test = (struct node*)malloc(sizeof(struct node));
 
     	head1=one;
     	head2=two;
-    	//head1 points to first node of first linked list
-    	//head2 points to first node of second linked list
-
     	one->data=1;
     	one->next=three;
-
-    	two->data=2;	
+      head3=head1;
+    	two->data=2;
     	two->next=four;
 
     	three->data=3;
     	three->next=five;
 
-    	four->data=4;
+    	four->data=7;
     	four->next=six;
 
     	five->data=5;
@@ -92,9 +92,12 @@ int main()
         printlist(head1);
         printf("\nLinked List 2: ");
         printlist(head2);
-
+        assert(head1 != head2);
+        assert(head1 == head3);
+        head3 == head2;
         //Merging the two linked list into single linked list
     	merge();
+        assert(head3 == one);
 
     	printf("\nMerged Linked List: ");
         printlist(head1);   //list one has been modified
