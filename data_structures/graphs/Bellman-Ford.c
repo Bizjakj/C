@@ -2,8 +2,9 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<string.h>
-#include<assert.h>
 #include<time.h>
+
+#include "CuTest.h"
 
 //Structure for storing edge
 struct Edge{
@@ -101,8 +102,133 @@ void BellmanFord(struct Graph* graph, int src){
 	return;
 }
 
+void TestCreateGraph(CuTest* tc) {
+	struct Graph g;
+	createGraph(&g, 5, 6);
+	CuAssertIntEquals(tc, 5, g.vertexNum);
+	CuAssertIntEquals(tc, 6, g.edgeNum);
+	CuAssertPtrNotNull(tc, g.edges);
+}
 
+void TestCreateEdgelessGraph(CuTest* tc) {
+	struct Graph g;
+	createGraph(&g, 5, 0);
+	CuAssertIntEquals(tc, 5, g.vertexNum);
+	CuAssertIntEquals(tc, 0, g.edgeNum);
+	CuAssertPtrNotNull(tc, g.edges);
+}
 
+void TestCreateEmptyGraph(CuTest* tc) {
+	struct Graph g;
+	createGraph(&g, 5, 0);
+	CuAssertIntEquals(tc, 5, g.vertexNum);
+	CuAssertIntEquals(tc, 0, g.edgeNum);
+	CuAssertPtrNotNull(tc, g.edges);
+}
+
+void TestCreateGraphTooManyEdges(CuTest* tc) {
+	struct Graph g;
+	createGraph(&g, 2, 10);
+	CuAssertIntEquals(tc, 2, g.vertexNum);
+	CuAssertIntEquals(tc, 10, g.edgeNum);
+	CuAssertPtrNotNull(tc, g.edges);
+}
+
+void TestCreateGraphNegativeEdges(CuTest* tc) {
+	struct Graph g;
+	createGraph(&g, 5, -10);
+	CuAssertIntEquals(tc, 5, g.vertexNum);
+	CuAssertIntEquals(tc, -10, g.edgeNum);
+	CuAssertPtrNotNull(tc, g.edges);
+}
+
+void TestCreateGraphNegativeVertices(CuTest* tc) {
+	struct Graph g;
+	createGraph(&g, -5, 5);
+	CuAssertIntEquals(tc, -5, g.vertexNum);
+	CuAssertIntEquals(tc, 5, g.edgeNum);
+	CuAssertPtrNotNull(tc, g.edges);
+}
+
+void TestAddEdgesOveride(CuTest* tc) {
+	int S = 3;
+	struct Graph g;
+	createGraph(&g, S, 6);
+	addEdge(&g, 0, 1, 2);
+	CuAssertIntEquals(tc, 2, g.edges[0].weight);
+	addEdge(&g, 0, 1, 3);
+	CuAssertIntEquals(tc, 3, g.edges[1].weight);
+	CuAssertIntEquals(tc, 2, g.edges[0].weight);
+}
+
+void TestAddEdges(CuTest* tc) {
+	srand(time(NULL));
+	int S = 10, i, j, num = 0, r;
+	struct Graph g;
+	createGraph(&g, S, 90);
+	for(i=0; i<S; i++) {
+		for(j=0; j<S; j++) {
+			if(j != i) {
+				r = rand() % 100;
+				addEdge(&g,i,j,r);
+				CuAssertIntEquals(tc, r, g.edges[num].weight);
+				CuAssertIntEquals(tc, i, g.edges[num].src);
+				CuAssertIntEquals(tc, j, g.edges[num].dst);
+				num++;
+			}
+		}
+	}
+}
+
+void TestAddEdgesTwoGraphs(CuTest* tc) {
+	srand(time(NULL));
+	int S = 10, i, j, r, num = 0;
+	struct Graph g, g2;
+	createGraph(&g, S, 90);
+	createGraph(&g2, S, 90);
+	for(i=0; i<S; i++) {
+		for(j=0; j<S; j++) {
+			if(j != i) {
+				r = rand() % 100;
+				addEdge(&g,i,j,r);
+				addEdge(&g,i,j,r);
+				CuAssertIntEquals(tc, r, g.edges[num].weight);
+				CuAssertIntEquals(tc, i, g.edges[num].src);
+				CuAssertIntEquals(tc, j, g.edges[num].dst);
+				num++;
+			}
+		}
+	}	
+}
+
+void TestIllegalEdge(CuTest* tc) {
+	struct Graph g;
+	createGraph(&g, 5, 0);
+	addEdge(&g,0,1,10);
+	CuAssertIntEquals(tc, 10, g.edges[0].weight);
+}
+
+CuSuite* BellmanGetSuite() {
+        
+	CuSuite* suite = CuSuiteNew();
+    SUITE_ADD_TEST(suite, TestCreateGraph);
+	SUITE_ADD_TEST(suite, TestCreateEdgelessGraph);
+	SUITE_ADD_TEST(suite, TestCreateEmptyGraph);
+	SUITE_ADD_TEST(suite, TestCreateGraphTooManyEdges);
+	SUITE_ADD_TEST(suite, TestCreateGraphNegativeEdges);
+	SUITE_ADD_TEST(suite, TestCreateGraphNegativeVertices);
+	SUITE_ADD_TEST(suite, TestAddEdgesOveride);
+	SUITE_ADD_TEST(suite, TestAddEdges);
+	SUITE_ADD_TEST(suite, TestAddEdgesTwoGraphs);
+	SUITE_ADD_TEST(suite, TestIllegalEdge);
+	
+	
+	
+    
+	return suite;
+}
+
+/*
 //Driver Function
 int main(int argc, char **argv){
 	if(argc > 1) {
@@ -110,12 +236,33 @@ int main(int argc, char **argv){
 		struct Graph g, g2; 
 		int r = rand(), i, j, num=0;
 		int S = 10; 
+		
+		createGraph(&g, 5, 6);
+		addEdge(&g,0,1,10);
+		addEdge(&g,0,2,9);
+		addEdge(&g,2,1,1);
+		addEdge(&g,0,3,4); 
+		addEdge(&g,3,4,1);
+		addEdge(&g,4,2,3);
+		BellmanFord(&g, 0);
+
+		createGraph(&g, 5,7);
+		addEdge(&g,0,1,10);
+		addEdge(&g,0,2,9);
+		addEdge(&g,2,1,1);
+		addEdge(&g,0,3,8); 
+		addEdge(&g,3,4,1);
+		addEdge(&g,0,4,6);
+		addEdge(&g,4,2,3);
+		BellmanFord(&g, 0);
+
+		/*
 		createGraph(&g, 3, 20);
-    	createGraph(&g, S, 20);
-		createGraph(&g2, S, 20);
+    	createGraph(&g, S, 90);
+		createGraph(&g2, S, 90);
 		assert(g.edges != NULL);
     	assert(g.vertexNum == S);
-		assert(g.edgeNum == 20);
+		assert(g.edgeNum == 90);
 		for(i=0; i<S; i++) {
 			for(j=0; j<S; j++) {
 				if(j != i) {
@@ -129,7 +276,7 @@ int main(int argc, char **argv){
 				}
 			}
 		}
-
+		
 		createGraph(&g, 1, 0);
 		BellmanFord(&g, 0);
 
@@ -139,10 +286,10 @@ int main(int argc, char **argv){
 		BellmanFord(&g, 0);
 		BellmanFord(&g, 1);
 
-		createGraph(&g, 2, 2);
-		addEdge(&g,0,1,10);
-		addEdge(&g,0,1,2);
-		BellmanFord(&g, 0);
+		//createGraph(&g, 2, 2);
+		//addEdge(&g,0,1,10);
+		//addEdge(&g,0,1,2);
+		//BellmanFord(&g, 0);
 
 		createGraph(&g, 5, 6);
 		addEdge(&g,0,1,10);
@@ -174,6 +321,7 @@ int main(int argc, char **argv){
 		BellmanFord(&g, 1);
 		BellmanFord(&g, 2);
 		BellmanFord(&g, 3);
+
 		return 0;
 	}
 	int V,E,gsrc;
@@ -200,4 +348,5 @@ int main(int argc, char **argv){
 	return 0;
 }
 
+*/
 
