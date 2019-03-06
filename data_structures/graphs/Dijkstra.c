@@ -2,7 +2,8 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<string.h>
-
+#include<assert.h>
+#include<time.h>
 
 //Structure for storing a graph
 struct Graph{
@@ -86,7 +87,86 @@ void Dijkstra(struct Graph* graph, int src){
 
 
 //Driver Function
-int main(){
+int main(int argc, char** argv){
+	if(argc > 1) {
+		srand(time(NULL));
+		struct Graph g, g2; 
+		int r = rand(), i, j;
+		int S = 10; 
+    	createGraph(&g, S);
+		createGraph(&g2, S);
+    	assert(g.vertexNum == S);
+		for(i=0; i<S; i++) {
+			for(j=0; j<S; j++) {
+				if(j != i) {
+					assert(g.edges[i][j] == INT_MAX);
+					r = rand() % 100;
+					addEdge(&g,i,j,r);
+					addEdge(&g2,i,j,r);
+					assert(g.edges[i][j] == r);
+				}
+			}
+			assert(g.edges[i][i] == 0);
+		}
+		addEdge(&g,3,3,5);
+		for(i=0; i<S; i++) {
+			for(j=0; j<S; j++) {
+				if(i != 3 || j != 3) {
+					assert(g2.edges[i][j] == g.edges[i][j]);
+				} 
+			}
+		}
+		createGraph(&g, 1);
+		Dijkstra(&g, 0);
+
+		createGraph(&g, 2);
+		addEdge(&g,0,1,2);
+		addEdge(&g,0,1,10);
+		Dijkstra(&g, 0);
+
+		createGraph(&g, 2);
+		Dijkstra(&g, 0);
+		Dijkstra(&g, 1);
+
+		createGraph(&g, 2);
+		addEdge(&g,0,1,10);
+		addEdge(&g,1,0,2);
+		Dijkstra(&g, 0);
+		Dijkstra(&g, 1);
+
+
+		createGraph(&g, 5);
+		addEdge(&g,0,1,10);
+		addEdge(&g,0,2,9);
+		addEdge(&g,2,1,1);
+		addEdge(&g,0,3,4); 
+		addEdge(&g,3,4,1);
+		addEdge(&g,4,2,3);
+		Dijkstra(&g, 0);
+
+		createGraph(&g, 5);
+		addEdge(&g,0,1,10);
+		addEdge(&g,0,2,9);
+		addEdge(&g,2,1,1);
+		addEdge(&g,0,3,8); 
+		addEdge(&g,3,4,1);
+		addEdge(&g,0,4,6);
+		addEdge(&g,4,2,3);
+		Dijkstra(&g, 0);
+		S = 4;
+		int e = 7;
+		int start[7] = {0,0,0,1,1,3,3}; 
+		int end[7] = {1,2,3,0,3,2,1};
+		int weight[7] = {11,12,13,1,4,18,2};
+		createGraph(&g, S);
+		for(i=0; i<7;i++)
+			addEdge(&g, start[i], end[i], weight[i]);
+		Dijkstra(&g, 0);
+		Dijkstra(&g, 1);
+		Dijkstra(&g, 2);
+		Dijkstra(&g, 3);
+		return 0;
+	}
 	int V,E,gsrc;
 	int src,dst,weight;
 	struct Graph G;

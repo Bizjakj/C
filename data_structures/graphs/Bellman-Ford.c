@@ -2,6 +2,8 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<string.h>
+#include<assert.h>
+#include<time.h>
 
 //Structure for storing edge
 struct Edge{
@@ -102,7 +104,78 @@ void BellmanFord(struct Graph* graph, int src){
 
 
 //Driver Function
-int main(){
+int main(int argc, char **argv){
+	if(argc > 1) {
+		srand(time(NULL));
+		struct Graph g, g2; 
+		int r = rand(), i, j, num=0;
+		int S = 10; 
+		createGraph(&g, 3, 20);
+    	createGraph(&g, S, 20);
+		createGraph(&g2, S, 20);
+		assert(g.edges != NULL);
+    	assert(g.vertexNum == S);
+		assert(g.edgeNum == 20);
+		for(i=0; i<S; i++) {
+			for(j=0; j<S; j++) {
+				if(j != i) {
+					r = rand() % 100;
+					addEdge(&g,i,j,r);
+					addEdge(&g2,i,j,r);
+					assert(g.edges[num].weight == r);
+					assert(g.edges[num].src == i);
+					assert(g.edges[num].dst == j);
+					num+=2;
+				}
+			}
+		}
+
+		createGraph(&g, 1, 0);
+		BellmanFord(&g, 0);
+
+		createGraph(&g, 2, 2);
+		addEdge(&g,0,1,10);
+		addEdge(&g,1,0,2);
+		BellmanFord(&g, 0);
+		BellmanFord(&g, 1);
+
+		createGraph(&g, 2, 2);
+		addEdge(&g,0,1,10);
+		addEdge(&g,0,1,2);
+		BellmanFord(&g, 0);
+
+		createGraph(&g, 5, 6);
+		addEdge(&g,0,1,10);
+		addEdge(&g,0,2,9);
+		addEdge(&g,2,1,1);
+		addEdge(&g,0,3,4); 
+		addEdge(&g,3,4,1);
+		addEdge(&g,4,2,3);
+		BellmanFord(&g, 0);
+
+		createGraph(&g, 5,7);
+		addEdge(&g,0,1,10);
+		addEdge(&g,0,2,9);
+		addEdge(&g,2,1,1);
+		addEdge(&g,0,3,8); 
+		addEdge(&g,3,4,1);
+		addEdge(&g,0,4,6);
+		addEdge(&g,4,2,3);
+		BellmanFord(&g, 0);
+		S = 4;
+		int e = 7;
+		int st[7] = {0,0,0,1,1,3,3}; 
+		int end[7] = {1,2,3,0,3,2,1};
+		int wt[7] = {11,12,13,1,4,18,2};
+		createGraph(&g, S, 7);
+		for(i=0; i<7;i++)
+			addEdge(&g, st[i], end[i], wt[i]);
+		BellmanFord(&g, 0);
+		BellmanFord(&g, 1);
+		BellmanFord(&g, 2);
+		BellmanFord(&g, 3);
+		return 0;
+	}
 	int V,E,gsrc;
 	int src,dst,weight;
 	struct Graph G;
