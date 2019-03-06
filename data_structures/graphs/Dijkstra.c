@@ -2,8 +2,9 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<string.h>
-#include<assert.h>
 #include<time.h>
+
+#include "CuTest.h" 
 
 //Structure for storing a graph
 struct Graph{
@@ -84,11 +85,92 @@ void Dijkstra(struct Graph* graph, int src){
 	return;
 }
 
+void testCreateGraph(CuTest *tc) {
 
+	int i, j;
+	struct Graph g;
+	int S = 10; 
+    createGraph(&g, S);
+    CuAssertIntEquals(tc, S, g.vertexNum);
+	for(i=0; i<S; i++) {
+		for(j=0; j<S; j++) {
+			if(j != i) {
+				CuAssertIntEquals(tc, INT_MAX, g.edges[i][j]);
+			}
+		}
+		CuAssertIntEquals(tc, 0, g.edges[i][i]);
+	}
+}
 
+void testAddEdge(CuTest *tc) {
+	srand(time(NULL));
+	
+	int i, j, r;
+	struct Graph g;
+	int S = 10; 
+    createGraph(&g, S);
+	for(i=0; i<S; i++) {
+		for(j=0; j<S; j++) {
+			if(j != i) {
+				r = rand() % 100;
+				addEdge(&g,i,j,r);
+				CuAssertIntEquals(tc, r, g.edges[i][j]);
+			}
+		}
+	}
+}
+
+void testOverideEdge(CuTest *tc) {
+	struct Graph g;
+	int S = 2; 
+	createGraph(&g, S);
+	addEdge(&g, 0, 1, 1);
+	CuAssertIntEquals(tc, 1, g.edges[0][1]);
+	addEdge(&g, 0, 1, 2);
+	CuAssertIntEquals(tc, 2, g.edges[0][1]);
+}
+
+CuSuite* DijkstraGetSuite() {
+        
+	CuSuite* suite = CuSuiteNew();
+    SUITE_ADD_TEST(suite, testCreateGraph);
+	SUITE_ADD_TEST(suite, testAddEdge);
+	SUITE_ADD_TEST(suite, testOverideEdge);
+    return suite;
+}
+
+/*
 //Driver Function
 int main(int argc, char** argv){
-	if(argc > 1) {
+	
+	}
+	int V,E,gsrc;
+	int src,dst,weight;
+	struct Graph G;
+	printf("Enter number of vertices: ");
+	scanf("%d",&V);
+	printf("Enter number of edges: ");
+	scanf("%d",&E);
+	createGraph(&G,V);
+	for(int i=0; i<E; i++){
+		printf("\nEdge %d \nEnter source: ",i+1);
+		scanf("%d",&src);
+		printf("Enter destination: ");
+		scanf("%d",&dst);
+		printf("Enter weight: ");
+		scanf("%d",&weight);
+		addEdge(&G, src, dst, weight);
+	}
+	printf("\nEnter source:");
+	scanf("%d",&gsrc);
+	Dijkstra(&G,gsrc);
+
+	return 0;
+}
+
+
+
+if(argc > 1) {
 		srand(time(NULL));
 		struct Graph g, g2; 
 		int r = rand(), i, j;
@@ -166,29 +248,4 @@ int main(int argc, char** argv){
 		Dijkstra(&g, 2);
 		Dijkstra(&g, 3);
 		return 0;
-	}
-	int V,E,gsrc;
-	int src,dst,weight;
-	struct Graph G;
-	printf("Enter number of vertices: ");
-	scanf("%d",&V);
-	printf("Enter number of edges: ");
-	scanf("%d",&E);
-	createGraph(&G,V);
-	for(int i=0; i<E; i++){
-		printf("\nEdge %d \nEnter source: ",i+1);
-		scanf("%d",&src);
-		printf("Enter destination: ");
-		scanf("%d",&dst);
-		printf("Enter weight: ");
-		scanf("%d",&weight);
-		addEdge(&G, src, dst, weight);
-	}
-	printf("\nEnter source:");
-	scanf("%d",&gsrc);
-	Dijkstra(&G,gsrc);
-
-	return 0;
-}
-
-
+*/

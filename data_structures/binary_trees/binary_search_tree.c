@@ -190,56 +190,56 @@ void inOrder(node* root){
 	}
 }
 
-void main(){
-
-
-	node* root = NULL;
-	int data = 0;
-	printf("insert nodes 0, 5, 10, 4, 3, 5, 6, -1\n");
-	root = insert(root,data);
-	root = insert(root, 5);
-	root = insert(root, 10);
-	root = insert(root, 4);
-	root = insert(root, 3);
-	root = insert(root, 5);
-	root = insert(root, 6);
-	root = insert(root, -1);
-	printf("\nheight: %d\n", height(root));
-	assert(height(root) == 4);
-
-	printf("in order traversal\n");
-	inOrderTraversal(root);
-	printf("\n");
-	printf("pre order traversal\n");
-	preOrderTraversal(root);
-	printf("\n");
-	printf("post order traversal\n");
-	postOrderTraversal(root);
-	printf("\n");
-
-	printf("deleting 4, then 4, then 10\n");
-	root = delete(root, 3);
-	root = delete(root, 3);
-	root = delete(root, 10);
-	inOrder(root);
-	printf("\n");
-	printf("\nheight: %d\n", height(root));
-	assert(height(root) == 3);
-
-	printf("in order traversal\n");
-	inOrderTraversal(root);
-	printf("\n");
-	printf("pre order traversal\n");
-	preOrderTraversal(root);
-	printf("\n");
-	printf("post order traversal\n");
-	postOrderTraversal(root);
-	printf("\n");
-	
-	printf("attempting to find 0, and -2\n");
-	assert(find(root,data));
-	assert(!find(root, -2));
-
-    // deletes the tree from the heap.
-	purge(root);
-}
+// void main(){
+//
+//
+// 	node* root = NULL;
+// 	int data = 0;
+// 	printf("insert nodes 0, 5, 10, 4, 3, 5, 6, -1\n");
+// 	root = insert(root,data);
+// 	root = insert(root, 5);
+// 	root = insert(root, 10);
+// 	root = insert(root, 4);
+// 	root = insert(root, 3);
+// 	root = insert(root, 5);
+// 	root = insert(root, 6);
+// 	root = insert(root, -1);
+// 	printf("\nheight: %d\n", height(root));
+// 	assert(height(root) == 4);
+//
+// 	printf("in order traversal\n");
+// 	inOrderTraversal(root);
+// 	printf("\n");
+// 	printf("pre order traversal\n");
+// 	preOrderTraversal(root);
+// 	printf("\n");
+// 	printf("post order traversal\n");
+// 	postOrderTraversal(root);
+// 	printf("\n");
+//
+// 	printf("deleting 4, then 4, then 10\n");
+// 	root = delete(root, 3);
+// 	root = delete(root, 3);
+// 	root = delete(root, 10);
+// 	inOrder(root);
+// 	printf("\n");
+// 	printf("\nheight: %d\n", height(root));
+// 	assert(height(root) == 3);
+//
+// 	printf("in order traversal\n");
+// 	inOrderTraversal(root);
+// 	printf("\n");
+// 	printf("pre order traversal\n");
+// 	preOrderTraversal(root);
+// 	printf("\n");
+// 	printf("post order traversal\n");
+// 	postOrderTraversal(root);
+// 	printf("\n");
+//
+// 	printf("attempting to find 0, and -2\n");
+// 	assert(find(root,data));
+// 	assert(!find(root, -2));
+//
+//     // deletes the tree from the heap.
+// 	purge(root);
+// }
