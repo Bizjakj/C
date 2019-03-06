@@ -61,13 +61,13 @@ int main()
     	struct node *five = (struct node*)malloc(sizeof(struct node));
     	struct node *six = (struct node*)malloc(sizeof(struct node));
     	struct node *seven = (struct node*)malloc(sizeof(struct node));
-      struct node *test = (struct node*)malloc(sizeof(struct node));
+		struct node *test = (struct node*)malloc(sizeof(struct node));
 
     	head1=one;
     	head2=two;
     	one->data=1;
     	one->next=three;
-      head3=head1;
+		head3=head1;
     	two->data=2;
     	two->next=four;
 
@@ -101,6 +101,7 @@ int main()
 
     	printf("\nMerged Linked List: ");
         printlist(head1);   //list one has been modified
+
 
     	return 0;
 }

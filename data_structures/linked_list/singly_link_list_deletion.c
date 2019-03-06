@@ -18,12 +18,15 @@ struct node * createnode()//function to create node
   return(t);
 }
 ////////////////////////////////////////////////////////
-void insert()//function to insert at first location
+void insert( int a)//function to insert at first location
 {
   struct node *p;
   p=createnode();
-  printf("\nenter the number to insert");
+  /*printf("\nenter the number to insert");
   scanf("%d",&p->info);
+  */
+  
+  p->info = a;
   p->link=NULL;
   if(start==NULL)
   {
@@ -97,7 +100,7 @@ void viewlist()//function to display values
     }
   return(0);
 }
-*/
+
 
 int main(){
   start = createnode();
@@ -114,4 +117,52 @@ int main(){
   deleteion();
   printf("List:\n");
   viewlist();
+}
+
+*/
+
+int main(){
+	int a = 1;
+	int b = 3; 
+	int c = 9;
+	int d = 0;
+	
+	insert(a);
+	
+	viewlist();
+	printf("\n");
+	
+	insert(b);
+	
+	viewlist();
+	printf("\n");
+	
+	deleteion();
+	insert(d);
+	
+	viewlist();
+	printf("\n");
+	
+	insert(c);
+	insert(d);
+	viewlist();
+	printf("\n");
+	
+	deleteion();
+		viewlist();
+	printf("\n");
+	deleteion();
+	
+		viewlist();
+	printf("\n");
+	deleteion();
+		viewlist();
+	printf("\n");
+	deleteion();
+		viewlist();
+	printf("\n");
+	
+		deleteion();
+
+	
 }
