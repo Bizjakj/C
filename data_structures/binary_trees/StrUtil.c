@@ -31,8 +31,10 @@ void TestHeight(CuTest *tc) {
 
 void TestFindNode(CuTest *tc){
     node* root = NULL;
+
     int data = 0;
     root = insert(root,data);
+
     root = insert(root, 5);
     root = insert(root, 10);
     root = insert(root, 4);
@@ -40,13 +42,17 @@ void TestFindNode(CuTest *tc){
     root = insert(root, 5);
     root = insert(root, 6);
     root = insert(root, -1);
-    CuAssertTrue(tc,find(root, 3));
-    CuAssertTrue(tc,!find(root, -2));
+    path* c = find(root, 3);
+
+    CuAssertTrue(tc, c->found);
+    CuAssertIntEquals(tc, 1, c->arr[0]);
+    CuAssertIntEquals(tc, 0,  c->arr[1]);
+
     root = delete(root, 3);
     root = delete(root, 3);
     root = delete(root, 10);
-    CuAssertTrue(tc,!find(root, 3));
-    CuAssertTrue(tc,find(root, 4));
+    c = find(root, 4);
+    CuAssertTrue(tc, c->found);
 
 }
 
