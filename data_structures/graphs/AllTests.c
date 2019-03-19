@@ -11,7 +11,8 @@
 
         //CuSuiteAddSuite(suite, DijkstraGetSuite());
         CuSuiteAddSuite(suite, BellmanGetSuite());
-    
+        //CuSuiteAddSuite(suite, GraphsSuite());
+
         CuSuiteRun(suite);
         CuSuiteSummary(suite, output);
         CuSuiteDetails(suite, output);

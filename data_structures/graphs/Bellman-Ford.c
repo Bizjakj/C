@@ -16,12 +16,14 @@ struct Graph{
 	int vertexNum;
 	int edgeNum;
 	struct Edge* edges;
+	int index;
 };
 
 //Constructs a graph with V vertices and E edges
 void createGraph(struct Graph* G,int V,int E){
 		G->vertexNum = V;
 		G->edgeNum = E;
+		G->index = 0;
 		G->edges = (struct Edge*) malloc(E * sizeof(struct Edge));		
 }
 
@@ -32,7 +34,7 @@ void addEdge(struct Graph* G, int src, int dst, int weight){
 	newEdge.src = src;
 	newEdge.dst = dst;
 	newEdge.weight = weight;
-	G->edges[ind++]= newEdge;
+	G->edges[G->index++]= newEdge;
 }
 
 
@@ -139,7 +141,7 @@ void TestCreateGraphNegativeEdges(CuTest* tc) {
 	createGraph(&g, 5, -10);
 	CuAssertIntEquals(tc, 5, g.vertexNum);
 	CuAssertIntEquals(tc, -10, g.edgeNum);
-	CuAssertPtrNotNull(tc, g.edges);
+	CuAssertPtrEquals(tc, NULL, g.edges);
 }
 
 void TestCreateGraphNegativeVertices(CuTest* tc) {
@@ -191,7 +193,7 @@ void TestAddEdgesTwoGraphs(CuTest* tc) {
 			if(j != i) {
 				r = rand() % 100;
 				addEdge(&g,i,j,r);
-				addEdge(&g,i,j,r);
+				addEdge(&g2,i,j,r);
 				CuAssertIntEquals(tc, r, g.edges[num].weight);
 				CuAssertIntEquals(tc, i, g.edges[num].src);
 				CuAssertIntEquals(tc, j, g.edges[num].dst);
