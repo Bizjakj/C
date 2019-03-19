@@ -22,6 +22,12 @@ typedef struct node{
 	int data;
 } node;
 
+typedef struct path{
+	int *arr;
+	int size;
+	int found;
+} path;
+
 void inOrderTraversal(struct node *node)
 {
     if(node == NULL) //if tree is empty
@@ -137,19 +143,45 @@ node* delete(node* root, int data){
 }
 
 // Search procedure, which looks for the input key in the tree and returns 1 if it's present or 0 if it's not in the tree
-int find(node* root, int data){
+path* find(node* root, int data){
 	// If the root is null, the key's not present
-	if (root == NULL)
-		return 0;
+	if (root == NULL){
+		path *p;
+
+		p->arr = calloc(100, sizeof(int));
+		p->size = 0;
+		p->found = 0;
+		return p;
+	}
 	// If the input key is greater than the root's, search in the right subtree
-	else if (data > root->data)
-		return find(root->right, data);
+	else if (data > root->data){
+		path *p = find(root->right, data);
+		if(p->found == 1){
+			p->arr[p->size] = 1;
+
+		}
+		return p;
+	}
+
 	// If the input key is lower than the root's, search in the left subtree
-	else if (data < root->data)
-		return find(root->left, data);
+	else if (data < root->data){
+		path *p = find(root->left, data);
+		if(p->found == 1){
+			p->arr[p->size] = 2;
+
+		}
+		return p;
+	}
+
 	// If the input and the root key match, return 1
-	else if (data == root->data)
-		return 1;
+	else if (data == root->data){
+		path *p;
+
+		p->arr = calloc(100, sizeof(int));
+		p->size = 0;
+		p->found = 1;
+		return p;
+	}
 }
 
 // Utilitary procedure to measure the height of the binary tree

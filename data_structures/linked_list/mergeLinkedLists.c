@@ -1,19 +1,50 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<assert.h>
+
 struct node{
    	int data;
    	struct node *next;
 };
 
-struct node *head1 = NULL;
-struct node *head2 = NULL;
-struct node *head3 = NULL;
+struct node * createnode()//function to create node
+{
+  struct node *t;
+  t=(struct node*)malloc(sizeof(struct node));
+  return(t);
+}
 
+void insert( int a, struct node **head)//function to insert at first location
+{
+  struct node *p;
+  p=createnode();
+  
+  p->data = a;
+  p->next=NULL;
+  
+  if(*head==NULL)
+  {
+      *head=p;
+  }
+  else
+  {
+      p->next=*head;
+      *head=p;
+  }
+}
+
+void deletion(struct node *head)//function to delete from first position
+{
+	if(head->next != NULL){
+		deletion(head->next);
+	}
+	free(head);
+	
+}
 
 ///// MAIN ALGORITHMIC FUNCTION to MERGE the two input linked lists ///////
 
-void merge()
+void merge(struct node *head1, struct node *head2)
 {
     	struct node *temp1 = head1;
     	struct node *temp2 = head2;
@@ -41,6 +72,10 @@ void merge()
 }
 
 void printlist(struct node *temp){
+	if(temp == NULL){
+		printf("\n");
+		return;
+	}
     printf("%d",temp->data);
     temp=temp->next;
     while(temp!=NULL){
@@ -52,55 +87,25 @@ void printlist(struct node *temp){
 
 int main()
 {
-    // Linked List 1: 1->3->5->7   :   Linked List 2: 2->7->6
-    //  making lists
-    	struct node *one = (struct node*)malloc(sizeof(struct node));
-    	struct node *two = (struct node*)malloc(sizeof(struct node));
-    	struct node *three = (struct node*)malloc(sizeof(struct node));
-    	struct node *four = (struct node*)malloc(sizeof(struct node));
-    	struct node *five = (struct node*)malloc(sizeof(struct node));
-    	struct node *six = (struct node*)malloc(sizeof(struct node));
-    	struct node *seven = (struct node*)malloc(sizeof(struct node));
-      struct node *test = (struct node*)malloc(sizeof(struct node));
+	struct node *head1 = NULL;
+	struct node *head2 = NULL;
+	
+	insert(1, &head1);
+	insert(2, &head1);
+	insert(3, &head1);
+	
+	insert(2, &head2);
+	insert(3, &head2);
+	insert(1, &head2);
 
-    	head1=one;
-    	head2=two;
-    	one->data=1;
-    	one->next=three;
-      head3=head1;
-    	two->data=2;
-    	two->next=four;
-
-    	three->data=3;
-    	three->next=five;
-
-    	four->data=7;
-    	four->next=six;
-
-    	five->data=5;
-    	five->next=seven;
-
-    	six->data=6;
-    	six->next=NULL;
-    	//Last node of second input linked list
-
-    	seven->data=7;
-    	seven->next=NULL;
-    	//Last node of first input linked list
-
-        printf("Linked List 1: ");
-        printlist(head1);
-        printf("\nLinked List 2: ");
-        printlist(head2);
-        assert(head1 != head2);
-        assert(head1 == head3);
-        head3 == head2;
-        //Merging the two linked list into single linked list
-    	merge();
-        assert(head3 == one);
-
-    	printf("\nMerged Linked List: ");
-        printlist(head1);   //list one has been modified
-
-    	return 0;
+	printlist(head1);
+	printlist(head2);
+	
+	merge(head1, head2);
+	
+	printlist(head1);
+	
+	deletion(head1);
+	
+    return 0;
 }

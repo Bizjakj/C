@@ -30,6 +30,7 @@ extern "C" {
 	typedef struct CArray {
 		int *array;
 		int size;
+		int currsize;
 	} CArray;
 
 	// +-------------------------------------+
@@ -77,7 +78,7 @@ extern "C" {
 	// |              Display                |
 	// +-------------------------------------+
 	int displayCArray(CArray *array);
-	
+
 
 #ifdef __cplusplus
 }

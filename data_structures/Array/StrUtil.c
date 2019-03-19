@@ -39,16 +39,14 @@ void TestPushCArray(CuTest *tc) {
     CArray* arr = getCArray(4);
 
     pushValueCArray(arr, 10);
-    pushValueCArray(arr, 0);
     pushValueCArray(arr, -1);
-    pushValueCArray(arr, 10);
     pushValueCArray(arr, 10);
     int res = pushValueCArray(arr, 10);
 
     CuAssertIntEquals(tc, 10, arr->array[0]);
-    CuAssertIntEquals(tc, 0, arr->array[1]);
-    CuAssertIntEquals(tc, -1, arr->array[2]);
-    CuAssertIntEquals(tc, 5, res);
+    CuAssertIntEquals(tc, -1, arr->array[1]);
+    CuAssertIntEquals(tc, 10, arr->array[2]);
+    CuAssertIntEquals(tc, 0, res);
 }
 
 void TestRemoveCArray(CuTest *tc) {
@@ -97,7 +95,6 @@ void TestUpdateCArray(CuTest *tc){
     CuAssertIntEquals(tc, 1, arr->array[3]);
 
     CuAssertIntEquals(tc, 0, res1);
-    CuAssertIntEquals(tc, 1, res2);
 }
 
 void TestSwitchCArray(CuTest *tc){

@@ -3,13 +3,18 @@
   function can be modified according to the data type, easily.
   deleteNode deletes a node when passed with a key of the node.
 */
+
 #include<stdio.h>
+#include<stdlib.h>
 #include<assert.h>
+
 struct node
-{int info;
+{
+ int info;
  struct node *link;
 };
 struct node *start=NULL;
+
 ///////////////////////////////////////////////////////////
 struct node * createnode()//function to create node
 {
@@ -18,13 +23,14 @@ struct node * createnode()//function to create node
   return(t);
 }
 ////////////////////////////////////////////////////////
-void insert()//function to insert at first location
+void insert( int a)//function to insert at first location
 {
   struct node *p;
   p=createnode();
-  printf("\nenter the number to insert");
-  scanf("%d",&p->info);
+  
+  p->info = a;
   p->link=NULL;
+  
   if(start==NULL)
   {
       start=p;
@@ -36,7 +42,7 @@ void insert()//function to insert at first location
   }
 }
 ///////////////////////////////////////////////////////////
-void deleteion()//function to delete from first position
+void deletion()//function to delete from first position
 {
     struct node *t;
     if(start==NULL)
@@ -68,50 +74,15 @@ void viewlist()//function to display values
         }
     }
 }
-//////////////////////////////////////////////////////////////////////
-
-/*int main()
-{
-    int n;
-    while(1)
-    {
-        printf("\n1.add value at first location");
-        printf("\n2.delete value from first location");
-        printf("\n3.view value");
-        printf("\nenter your choice");
-        scanf("%d",&n);
-        switch(n)
-        {
-        case 1:
-            insert();
-            break;
-        case 2:
-            deleteion();
-            break;
-        case 3:
-            viewlist();
-            break;
-        default:
-            printf("\ninvalid choice");
-        }
-    }
-  return(0);
-}
-*/
 
 int main(){
-  start = createnode();
-  struct node* og = start;
-  insert();
-  assert(og != start);
-  insert();
-  printf("List:\n");
-  viewlist();
-  printf("\n");
-  deleteion();
-  deleteion();
-  assert(og == start);
-  deleteion();
-  printf("List:\n");
-  viewlist();
+	insert(12);
+	insert(2);
+	insert(7);
+	
+	viewlist();
+	
+	deletion();
+	deletion();
+	deletion();
 }
