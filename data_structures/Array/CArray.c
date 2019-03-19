@@ -38,6 +38,7 @@ CArray * getCArray(int size)
 	CArray *array = (CArray *) malloc(sizeof(CArray));
 	array->array = (int *) malloc(sizeof(int) * size);
 	array->size = size;
+	array->currsize = 0;
 	int i;
 	for (i = 0; i < size; i++) {
 		array->array[i] = 0;
@@ -50,6 +51,8 @@ int insertValueCArray(CArray *array, int position, int value)
 	if (position >= 0 && position < array->size) {
 		if (array->array[position] == 0) {
 			array->array[position] = value;
+			if(position >= array->currsize)
+				array->currsize = position + 1;
 			return SUCCESS;
 		}
 		else return POSITION_INIT;
@@ -62,6 +65,10 @@ int removeValueCArray(CArray *array, int position)
 	if (position >= 0 && position < array->size) {
 		if (array->array[position] != 0) {
 			array->array[position] = 0;
+			if((position - 1) == array->currsize)
+				 array->currsize =  array->currsize - 1;
+				 return SUCCESS;
+
 		}
 		else return POSITION_EMPTY;
 	}
@@ -71,26 +78,41 @@ int removeValueCArray(CArray *array, int position)
 int pushValueCArray(CArray *array, int value)
 {
 	int i;
-	int ok = 0;
-	for (i = 0; i < array->size; i++) {
-		if (array->array[i] == 0) {
-			array->array[i] = value;
-			ok = 1;
-			break;
+	if(array->currsize < array->size){
+		array->array[array->currsize] = value;
+		array->currsize = array->currsize + 1;
+
+	}else{
+		//CArray* newarr = getCArray(array->size);
+		int *newarr = (int *) malloc(sizeof(int) * array->size * 2);
+
+		int i;
+		for (i = 0; i < array->size; i++) {
+			newarr[i] = array->array[i];
 		}
+
+		for (i = array->size; i < array->size*2; i++) {
+			newarr[i] = 0;
+		}
+
+		free(array->array);
+
+		array->array = newarr;
+		array->array[array->currsize] = value;
+		array->size = array->size*2;
+		array->currsize = array->currsize + 1;
+
 	}
-	if (ok == 1) return SUCCESS;
-	else return ARRAY_FULL;
+
+	return SUCCESS;
+
 }
 
 int updateValueCArray(CArray *array, int position, int value)
 {
-	if (position >= 0 && position < array->size) {
-		if (array->array[position] != 0) {
-
-		}
-
-		else return POSITION_NOT_INIT;
+	if (position >= 0 && position < array->currsize) {
+		array->array[position] = value;
+		return SUCCESS;
 	}
 	return INVALID_POSITION;
 }
@@ -111,6 +133,7 @@ int switchValuesCArray(CArray *array, int position1, int position2)
 		int temp = array->array[position1];
 		array->array[position1] = array->array[position2];
 		array->array[position2] = temp;
+		return SUCCESS;
 	}
 	return INVALID_POSITION;
 }
